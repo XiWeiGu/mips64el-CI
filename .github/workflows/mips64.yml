@@ -3,40 +3,40 @@ name: mips64 CI
 on: [push, pull_request]
 
 jobs:
-    SICORTEX:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v3
+  SICORTEX:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-            - name: install qemu build deps
-              run: |
-                 sudo apt-get update
-                 sudo apt-get install autoconf automake autotools-dev ninja-build
+      - name: install qemu build deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install autoconf automake autotools-dev ninja-build
 
-            - name: checkout qemu
-              uses: actions/checkout@v3
-              with:
-                  repository: qemu/qemu
-                  path: qemu
-                  ref: 79dfa177ae348bb5ab5f97c0915359b13d6186e2
+      - name: checkout qemu
+        uses: actions/checkout@v3
+        with:
+          repository: qemu/qemu
+          path: qemu
+          ref: 79dfa177ae348bb5ab5f97c0915359b13d6186e2
 
-            - name: build qemu
-              run: |
-                  cd qemu
-                  ./configure --prefix=$GITHUB_WORKSPACE/qemu-install --target-list=mips64el-linux-user --disable-system
-                  make -j4
-                  make install
+      - name: build qemu
+        run: |
+          cd qemu
+          ./configure --prefix=$GITHUB_WORKSPACE/qemu-install --target-list=mips64el-linux-user --disable-system
+          make -j4
+          make install
 
-            - name: install mips64el toolchain
-              run: |
-                  sudo apt update
-                  sudo apt install make perl gcc-mips64el-linux-gnuabi64 gfortran-mips64el-linux-gnuabi64
+      - name: install mips64el toolchain
+        run: |
+          sudo apt update
+          sudo apt install make perl gcc-mips64el-linux-gnuabi64 gfortran-mips64el-linux-gnuabi64
 
-            - name: build
-              run: make CC='mips64el-linux-gnuabi64-gcc -static' FC='mips64el-linux-gnuabi64-gfortran -static'  TARGET=SICORTEX HOSTCC=gcc -j5
+      - name: build
+        run: make CC='mips64el-linux-gnuabi64-gcc -static' FC='mips64el-linux-gnuabi64-gfortran -static'  TARGET=SICORTEX HOSTCC=gcc -j5
 
-             - name: test
-               run: |
-                   export PATH=$GITHUB_WORKSPACE/qemu-install/bin/:$PATH
-                   qemu-mips64el ./utest/openblas_utest
+      - name: test
+        run: |
+          export PATH=$GITHUB_WORKSPACE/qemu-install/bin/:$PATH
+          qemu-mips64el ./utest/openblas_utest
