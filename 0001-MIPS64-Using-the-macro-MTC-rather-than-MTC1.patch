@@ -1,0 +1,25 @@
+From 365936ae1b1dfa2f50b3e65c68ae95babc6f2af2 Mon Sep 17 00:00:00 2001
+From: gxw <guxiwei-hf@loongson.cn>
+Date: Tue, 13 Sep 2022 16:38:01 +0800
+Subject: [PATCH] MIPS64: Using the macro MTC rather than MTC1
+
+---
+ kernel/mips64/dnrm2.S | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/mips64/dnrm2.S b/kernel/mips64/dnrm2.S
+index 0ccc781e..cd40414a 100644
+--- a/kernel/mips64/dnrm2.S
++++ b/kernel/mips64/dnrm2.S
+@@ -90,7 +90,7 @@
+ 	//Init INF
+ 	lui     TEMP, 0x7FF0
+ 	dsll    TEMP, TEMP, 32
+-	MTC1    TEMP, INF
++	MTC     TEMP, INF
+ 
+ 	LD	a1,  0 * SIZE(X)
+ 	daddiu	N, N, -1
+-- 
+2.20.1
+
