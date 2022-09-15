@@ -110,7 +110,7 @@ VERSION = 0.3.21.dev
 # NO_STATIC = 1
 
 # If you don't need to generate the shared library, please comment this in.
-NO_SHARED = 1
+# NO_SHARED = 1
 
 # If you don't need the CBLAS interface, please comment this in.
 # NO_CBLAS = 1
